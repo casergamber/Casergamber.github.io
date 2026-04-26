@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#080c10" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="GymTracker" />
+  <title>GymTracker</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --bg:        #080c10;
+      --bg2:       #0e1318;
+      --bg3:       #151c23;
+      --bg4:       #1c252f;
+      --border:    #1e2d3d;
+      --border2:   #2a3f52;
+      --accent:    #00d4ff;
+      --accent-dim: rgba(0,212,255,0.12);
+      --accent2:   #0088cc;
+      --text:      #e8f4f8;
+      --text2:     #6b8fa8;
+      --text3:     #3a5268;
+      --green:     #00e5a0;
+      --green-dim: rgba(0,229,160,0.1);
+      --red:       #ff4c6a;
+      --red-dim:   rgba(255,76,106,0.12);
+      --radius:    10px;
+      --radius-lg: 14px;
+      --safe-top:  env(safe-area-inset-top, 0px);
+      --safe-bot:  env(safe-area-inset-bottom, 0px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      min-height: 100dvh;
+      overscroll-behavior: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    input  { font-family: inherit; }
+
+    /* ── LAYOUT ── */
+    #app {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100dvh;
+      position: relative;
+      padding-bottom: calc(80px + var(--safe-bot));
+    }
+
+    .screen { padding: 0 0 24px; }
+
+    /* ── HOME HEADER ── */
+    .app-header {
+      background: var(--bg);
+      padding: calc(var(--safe-top) + 24px) 20px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .logo-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .logo-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .app-title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .header-sub {
+      color: var(--text2);
+      font-size: 14px;
+      margin-top: 5px;
+      font-weight: 500;
+    }
+
+    /* ── DAY CARDS ── */
+    .days-grid {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .day-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      text-align: left;
+      width: 100%;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .day-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .day-card:active {
+      background: var(--bg3);
+      border-color: var(--border2);
+      transform: scale(0.99);
+    }
+    .day-card:active::before { opacity: 1; }
+
+    .day-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 6px;
+      padding: 4px 8px;
+      flex-shrink: 0;
+      letter-spacing: 0.05em;
+    }
+
+    .day-info { flex: 1; min-width: 0; }
+
+    .day-name {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .day-count {
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 2px;
+    }
+
+    .day-chevron {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: var(--text3);
+      font-size: 14px;
+    }
+
+    /* ── TIMER CONFIG ── */
+    .timer-config-card {
+      margin: 0 16px 16px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+    }
+
+    .tc-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text3);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .tc-buttons { display: flex; gap: 8px; }
+
+    .tc-btn {
+      flex: 1;
+      padding: 9px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      color: var(--text2);
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.15s;
+    }
+
+    .tc-btn.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-color: rgba(0,212,255,0.3);
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: calc(var(--safe-top) + 14px) 16px 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .back-btn {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(0,212,255,0.15);
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.12s;
+    }
+    .back-btn:active { background: rgba(0,212,255,0.2); }
+
+    .header-titles { flex: 1; min-width: 0; }
+
+    .page-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ex-target {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 1px;
+    }
+
+    .history-btn {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      flex-shrink: 0;
+    }
+
+    /* ── EXERCISE LIST ── */
+    .exercise-list {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .exercise-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 13px 14px;
+      text-align: left;
+      width: 100%;
+      transition: border-color 0.12s, background 0.12s;
+    }
+    .exercise-row:active { background: var(--bg3); border-color: var(--border2); }
+
+    .ex-left { flex: 1; min-width: 0; }
+
+    .ex-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .ex-meta {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 2px;
+    }
+
+    .ex-right { text-align: right; flex-shrink: 0; }
+
+    .last-weight {
+      font-family: 'DM Mono', monospace;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .unit { font-size: 12px; margin-left: 1px; }
+
+    .last-label { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+    .no-data {
+      font-size: 11px;
+      background: var(--bg3);
+      border: 1px dashed var(--border2);
+      border-radius: 6px;
+      padding: 4px 8px;
+      color: var(--text3);
+    }
+
+    /* ── LAST SESSION BANNER ── */
+    .last-session-banner {
+      margin: 12px 16px 4px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+    .ls-label { color: var(--text2); display: block; margin-bottom: 4px; font-size: 12px; }
+    .ls-weights {
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── SETS ── */
+    .sets-container {
+      padding: 10px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .set-row {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 8px 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .set-row.set-completed {
+      border-color: rgba(0,229,160,0.4);
+      background: var(--green-dim);
+    }
+
+    .set-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text3);
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .set-row.set-completed .set-number { color: var(--green); }
+
+    .set-inputs {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+      max-width: 320px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1;
+      max-width: 150px;
+    }
+
+    .input-group label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text3);
+      font-weight: 600;
+    }
+
+    .weight-control {
+      display: flex;
+      align-items: center;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .adj-btn {
+      width: 28px;
+      height: 32px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text2);
+      background: var(--bg3);
+      transition: background 0.1s, color 0.1s;
+      flex-shrink: 0;
+    }
+    .adj-btn:active { background: var(--accent); color: #000; }
+
+    .weight-input,
+    .reps-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      height: 32px;
+      width: 50px;
+      max-width: 80px;
+      outline: none;
+      min-width: 0;
+      -moz-appearance: textfield;
+      font-family: 'DM Mono', monospace;
+    }
+    .weight-input::-webkit-outer-spin-button,
+    .weight-input::-webkit-inner-spin-button,
+    .reps-input::-webkit-outer-spin-button,
+    .reps-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    .input-unit {
+      font-size: 10px;
+      color: var(--text3);
+      text-align: center;
+      margin-top: 2px;
+    }
+
+    /* ── SET ACTIONS (OK + Delete) ── */
+    .set-actions {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+      align-items: center;
+    }
+
+    .set-done-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
+      border: 1.5px solid var(--border2);
+      color: var(--text3);
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: all 0.15s;
+      background: var(--bg3);
+    }
+
+    .set-done-btn.done-active {
+      background: var(--green);
+      border-color: var(--green);
+      color: #000;
+    }
+
+    .set-delete-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
+      border: 1.5px solid var(--border);
+      color: var(--text3);
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0;
+      background: var(--bg3);
+      transition: all 0.15s;
+    }
+    .set-delete-btn:active {
+      background: var(--red-dim);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* ── ADD SET ── */
+    .add-set-btn {
+      margin: 4px 16px 8px;
+      width: calc(100% - 32px);
+      padding: 11px;
+      border: 1.5px dashed var(--border2);
+      border-radius: var(--radius);
+      color: var(--text3);
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      transition: border-color 0.12s, color 0.12s;
+    }
+    .add-set-btn:active { border-color: var(--accent); color: var(--accent); }
+
+    /* ── ACTION BAR ── */
+    .action-bar {
+      position: sticky;
+      bottom: calc(56px + var(--safe-bot));
+      left: 0; right: 0;
+      display: flex;
+      gap: 10px;
+      padding: 10px 16px;
+      background: linear-gradient(to top, var(--bg) 60%, transparent);
+      z-index: 20;
+    }
+
+    .timer-trigger-btn {
+      flex: 1;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 13px 12px;
+      transition: border-color 0.12s, background 0.12s;
+    }
+    .timer-trigger-btn:active { background: var(--bg3); border-color: var(--accent); }
+
+    .save-btn {
+      flex: 1;
+      background: var(--accent);
+      border-radius: var(--radius);
+      color: #000;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 13px 12px;
+      transition: opacity 0.12s;
+    }
+    .save-btn:active { opacity: 0.8; }
+    .save-btn.saved { background: var(--green); }
+
+    /* ── TIMER BAR ── */
+    #timer-bar {
+      position: fixed;
+      bottom: var(--safe-bot);
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(480px, 100%);
+      height: 52px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    #timer-bar.visible { opacity: 1; pointer-events: all; }
+
+    #timer-fill {
+      position: absolute;
+      left: 0; top: 0;
+      height: 100%;
+      background: var(--accent-dim);
+      transition: width 0.25s linear;
+    }
+
+    #timer-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--accent);
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    #timer-stop {
+      position: relative;
+      z-index: 1;
+      color: var(--text3);
+      font-size: 16px;
+      padding: 8px;
+      border-radius: 6px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      font-weight: 600;
+    }
+
+    #timer-bar.timer-done { border-color: rgba(0,229,160,0.3); }
+    #timer-bar.timer-done #timer-fill { background: var(--green-dim); }
+    #timer-bar.timer-done #timer-label { color: var(--green); }
+
+    /* ── HISTORY ── */
+    .history-list {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .history-entry {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .he-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text2);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .he-sets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .he-set {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 9px;
+    }
+
+    .he-num {
+      font-size: 10px;
+      color: var(--text3);
+      font-weight: 700;
+      margin-right: 2px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .he-weight {
+      font-family: 'DM Mono', monospace;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .he-reps { font-size: 12px; color: var(--text2); }
+
+    .he-volume {
+      font-size: 12px;
+      color: var(--text3);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text2);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div style="display:flex;align-items:center;justify-content:center;height:100dvh;flex-direction:column;gap:12px;">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.2em;color:#00d4ff;text-transform:uppercase;">GymTracker</div>
+      <div style="color:#3a5268;font-size:13px;">Lade Daten…</div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
