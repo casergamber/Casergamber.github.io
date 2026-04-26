@@ -1,51 +1,47 @@
-// ─── DATA STRUCTURE ────────────────────────────────────────────────────────────
+// ─── DATENSTRUKTUR ─────────────────────────────────────────────────────────────────
 const WORKOUT_PLAN = {
   1: {
-    name: "Oberkörper Push",
-    emoji: "",
-    exercises: [
-      { id: "bench_press",      name: "Bankdrücken",           sets: 4, reps: "8–10" },
-      { id: "incline_db",       name: "Schrägbank Hantel",     sets: 3, reps: "10–12" },
-      { id: "ohp",              name: "Schulterdrücken",       sets: 3, reps: "8–10" },
-      { id: "lat_raise",        name: "Seitheben",             sets: 3, reps: "12–15" },
-      { id: "tricep_pushdown",  name: "Trizeps Pushdown",      sets: 3, reps: "12–15" },
-      { id: "tricep_dips",      name: "Trizeps Dips",          sets: 3, reps: "10–12" },
+    Name: "Oberkörper Push",
+    Emoji: "",
+    Übungen: [
+      { id: „bench_press“, Name: „Bankdrücken“, Sätze: 3, Wiederholungen: „8–10“, Pause: 90 },
+      { id: "ohp", name: "Schulterdrücken", sets: 3, reps: "8–10", pause: 90 },
+      { id: „incline_db“, Name: „Schrägbankdrücken (Kurzhantel)“, Sätze: 3, Wiederholungen: „8–10“, Pause: 90 },
+      { id: „tricep_pushdown“, Name: „Trizepsdrücken (Kabel/Maschine)“, Sätze: 2, Wiederholungen: „10–12“, Pause: 60 },
+      { id: "plank", name: "Unterarmstütz (Plank)", sets: 3, reps: "30s", pause: 60 },
     ]
   },
   2: {
-    name: "Unterkörper",
-    emoji: "",
-    exercises: [
-      { id: "squat",            name: "Kniebeuge",             sets: 4, reps: "6–8"  },
-      { id: "leg_press",        name: "Beinpresse",            sets: 3, reps: "10–12" },
-      { id: "leg_curl",         name: "Leg Curl",              sets: 3, reps: "10–12" },
-      { id: "leg_ext",          name: "Leg Extension",         sets: 3, reps: "12–15" },
-      { id: "calf_raise",       name: "Wadenheben",            sets: 4, reps: "15–20" },
-      { id: "hip_thrust",       name: "Hip Thrust",            sets: 3, reps: "10–12" },
+    Name: "Unterkörper",
+    Emoji: "",
+    Übungen: [
+      { id: "squat", name: "Kniebeuge", sets: 3, reps: "8–10", pause: 90 },
+      { id: „deadlift“, Name: „Kreuzheben / Rum. Kreuzheben“, Sätze: 3, Wiederholungen: „6–8“, Pause: 120 },
+      { id: "leg_press", name: "Beinpresse", sets: 3, reps: "10–12", pause: 90 },
+      { id: „leg_curl“, Name: „Beinbeuger (Maschine)“, Sätze: 3, Wiederholungen: „10–12“, Pause: 90 },
+      { id: "calf_raise", name: "Wadenheben", sets: 3, reps: "12–15", pause: 60 },
     ]
   },
   3: {
-    name: "Oberkörper Pull",
-    emoji: "",
-    exercises: [
-      { id: "deadlift",         name: "Kreuzheben",            sets: 4, reps: "5–6"  },
-      { id: "pullup",           name: "Klimmzüge",             sets: 3, reps: "6–10" },
-      { id: "cable_row",        name: "Kabelrudern",           sets: 3, reps: "10–12" },
-      { id: "face_pull",        name: "Face Pulls",            sets: 3, reps: "15–20" },
-      { id: "bicep_curl",       name: "Bizeps Curl",           sets: 3, reps: "10–12" },
-      { id: "hammer_curl",      name: "Hammer Curl",           sets: 3, reps: "10–12" },
+    Name: "Oberkörper Pull",
+    Emoji: "",
+    Übungen: [
+      { id: „pullup“, name: „Klimmzüge / Latzug (weiter Griff)“, Sätze: 3, Wiederholungen: „8–10“, Pause: 90 },
+      { id: „cable_row“, Name: „Vorgebeugtes Rudern (Kabel/LH)“, Sätze: 3, Wiederholungen: „8–10“, Pause: 90 },
+      { id: „lat_close“, Name: „Latziehen (enger Griff)“, Sätze: 3, Wiederholungen: „8–10“, Pause: 90 },
+      { id: „bicep_curl“, Name: „Bizepscurls (KH oder SZ-Stange)“, Sätze: 2, Wiederholungen: „10–12“, Pause: 60 },
+      { id: "crunches", name: "Crunches", sets: 3, reps: "12–15", pause: 60 },
     ]
   },
   4: {
-    name: "Unterkörper",
-    emoji: "",
-    exercises: [
-      { id: "rdl",              name: "Romanian Deadlift",     sets: 4, reps: "8–10" },
-      { id: "hack_squat",       name: "Hack Squat",            sets: 3, reps: "10–12" },
-      { id: "leg_curl2",        name: "Leg Curl (liegend)",    sets: 3, reps: "10–12" },
-      { id: "walking_lunge",    name: "Walking Lunge",         sets: 3, reps: "12/Bein" },
-      { id: "calf_seated",      name: "Wadenheben sitzend",    sets: 4, reps: "15–20" },
-      { id: "ab_rollout",       name: "Ab Rollout",            sets: 3, reps: "10–12" },
+    Name: "Unterkörper",
+    Emoji: "",
+    Übungen: [
+      { id: "front_squat", name: "Frontkniebeuge / Ausfallschritte", Sätze: 3, Wiederholungen: "8–10", Pause: 90 },
+      { id: „rdl“, name: „Rum. Kreuzheben (Hamstring)“, Sätze: 3, Wiederholungen: „8–10“, Pause: 90 },
+      { id: „leg_ext“, Name: „Beinstrecker (Maschine)“, Sätze: 3, Wiederholungen: „10–12“, Pause: 90 },
+      { id: „leg_curl2“, Name: „Beinbeuger (Maschine)“, Sätze: 3, Wiederholungen: „10–12“, Pause: 90 },
+      { id: "calf_raise2", name: "Wadenheben", sets: 3, reps: "12–15", pause: 60 },
     ]
   }
 };
@@ -69,7 +65,7 @@ class GymDB {
           store.createIndex('by_exercise', 'exerciseId', { unique: false });
           store.createIndex('by_day_date', ['dayId', 'date'], { unique: false });
         }
-        // Timer state
+        // Timer-Status
         if (!db.objectStoreNames.contains('timer')) {
           db.createObjectStore('timer', { keyPath: 'key' });
         }
@@ -144,7 +140,7 @@ class GymDB {
   }
 }
 
-// ─── TIMER (Timestamp-based) ───────────────────────────────────────────────────
+// ─── TIMER (Zeitstempelbasiert) ─────────────────────────────────────────────────────────
 class RestTimer {
   constructor(db, onTick, onDone) {
     this.db = db;
@@ -157,7 +153,7 @@ class RestTimer {
 
   async start(seconds) {
     this.startTs = Date.now();
-    this.duration = seconds * 1000;
+    this.duration = Sekunden * 1000;
     await this.db.saveTimer({ startTs: this.startTs, duration: this.duration });
     this._tick();
   }
@@ -173,7 +169,7 @@ class RestTimer {
     this.startTs = saved.startTs;
     this.duration = saved.duration;
     this._tick();
-    return true;
+    gib true zurück;
   }
 
   _tick() {
@@ -191,7 +187,7 @@ class RestTimer {
     }, 250);
   }
 
-  stop() {
+  stoppen() {
     if (this.intervalId) clearInterval(this.intervalId);
     this.startTs = null;
     this.db.saveTimer({ startTs: null, duration: null });
@@ -200,34 +196,34 @@ class RestTimer {
   isRunning() { return !!this.startTs; }
 }
 
-// ─── APP STATE ─────────────────────────────────────────────────────────────────
+// ─── APP-STATUS ──────────────────────────────────────────────────────────────────────
 let db, timer;
 let currentDay = null;
 let currentExercise = null;
 let timerDuration = 90;
 let currentSetData = {}; // { exerciseId: [{weight, reps}, ...] }
-let lastSessions = {};   // { exerciseId: session }
+let lastSessions = {}; // { exerciseId: session }
 
-// ─── INIT ──────────────────────────────────────────────────────────────────────
+// ─── INIT ─────────────────────────────────── ───────────────────────────────────
 async function init() {
   db = new GymDB();
   await db.init();
 
   timer = new RestTimer(
     db,
-    (secs) => updateTimerDisplay(secs),
+    (Sekunden) => updateTimerDisplay(Sekunden),
     () => {
       timerDoneAnimation();
       if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
     }
   );
 
-  // Resume timer if was running
+  // Timer fortsetzen, falls er lief
   const resumed = await timer.resume();
   if (resumed) showTimerBar();
 
   // Register SW
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' im Navigator) {
     navigator.serviceWorker.register('./sw.js').catch(console.warn);
   }
 
@@ -284,13 +280,13 @@ function renderHome() {
   `;
 }
 
-// ─── DAY VIEW ─────────────────────────────────────────────────────────────────
+// ─── TAGSANSICHT ───────────────────────────────────────────────────────────────────────
 async function renderDay(dayId) {
-  currentDay = dayId;
+  aktuellerTag = Tages-ID;
   const day = WORKOUT_PLAN[dayId];
   const app = document.getElementById('app');
 
-  // Load last sessions for all exercises
+  // Letzte Sitzungen für alle Übungen laden
   for (const ex of day.exercises) {
     lastSessions[ex.id] = await db.getLastSession(ex.id);
   }
@@ -322,23 +318,23 @@ async function renderDay(dayId) {
               </div>
             </button>
           `;
-        }).join('')}
+        }).verbinden('')}
       </div>
     </div>
     ${timerBarHTML()}
   `;
 }
 
-// ─── EXERCISE VIEW ────────────────────────────────────────────────────────────
+// ─── ÜBUNGSANSICHT ──────────────────────────────────────────────────────────────────
 async function renderExercise(dayId, exerciseId) {
-  currentDay = dayId;
-  currentExercise = exerciseId;
+  aktuellerTag = Tages-ID;
+  aktuelleÜbung = Übungs-ID;
   const day = WORKOUT_PLAN[dayId];
   const ex = day.exercises.find(e => e.id === exerciseId);
   const lastSession = await db.getLastSession(exerciseId);
   const todaySession = await db.getTodaySession(dayId, exerciseId);
 
-  // Init set data from today's session or empty
+  // Initialisierungsdaten aus der heutigen Sitzung oder leere Daten
   if (!currentSetData[exerciseId]) {
     currentSetData[exerciseId] = todaySession
       ? todaySession.sets.map(s => ({ ...s }))
@@ -349,6 +345,8 @@ async function renderExercise(dayId, exerciseId) {
   }
 
   const sets = currentSetData[exerciseId];
+  // Timer automatisch auf die empfohlene Pause für diese Übung einstellen
+  timerDuration = ex.pause || timerDuration;
 
   const app = document.getElementById('app');
   app.innerHTML = `
@@ -357,9 +355,9 @@ async function renderExercise(dayId, exerciseId) {
         <button class="back-btn" onclick="navigate('day', ${dayId})">Zurück</button>
         <div class="header-titles">
           <h2 class="page-title">${ex.name}</h2>
-          <div class="ex-target">${ex.sets} × ${ex.reps} Wdh.</div>
+          <div class="ex-target">${ex.sets} × ${ex.reps} Wdh. · Pause ${ex.pause}s</div>
         </div>
-        <button class="history-btn" onclick="navigate('history', '${exerciseId}', ${dayId})">Verlauf</button>
+        <button class="history-btn" onclick="navigate('history', '${exerciseId}', ${dayId})">Verlaufen</button>
       </header>
 
       ${lastSession ? `
@@ -377,7 +375,7 @@ async function renderExercise(dayId, exerciseId) {
 
       <div class="action-bar">
         <button class="timer-trigger-btn" onclick="startTimer()">
-          ${timerDuration}s Pause
+          ${ex.pause}s Pause
         </button>
         <button class="save-btn" onclick="saveExercise(${dayId}, '${exerciseId}')">
           Speichern
@@ -397,12 +395,12 @@ function renderSetRow(index, set, lastSet) {
           <label>Gewicht</label>
           <div class="weight-control">
             <button class="adj-btn" onclick="adjustWeight(${index}, -2.5)">−</button>
-            <input
-              type="number"
+            <Eingabe>
+              Typ="Zahl"
               class="weight-input"
               id="weight-${index}"
-              value="${set.weight}"
-              step="0.5"
+              Wert="${set.weight}"
+              Schritt="0,5"
               min="0"
               inputmode="decimal"
               onchange="updateSet(${index}, 'weight', this.value)"
@@ -415,13 +413,13 @@ function renderSetRow(index, set, lastSet) {
           <label>Wdh.</label>
           <div class="weight-control">
             <button class="adj-btn" onclick="adjustReps(${index}, -1)">−</button>
-            <input
-              type="number"
+            <Eingabe>
+              Typ="Zahl"
               class="reps-input"
               id="reps-${index}"
-              value="${set.reps}"
+              Wert="${set.reps}"
               min="1"
-              inputmode="numeric"
+              inputmode="numerisch"
               onchange="updateSet(${index}, 'reps', this.value)"
             />
             <button class="adj-btn" onclick="adjustReps(${index}, 1)">+</button>
@@ -437,7 +435,7 @@ function renderSetRow(index, set, lastSet) {
   `;
 }
 
-// ─── HISTORY VIEW ─────────────────────────────────────────────────────────────
+// ─── Verlaufsansicht ──────────────────────────────────────────────────────────────────
 async function renderHistory(exerciseId, dayId) {
   const day = Object.values(WORKOUT_PLAN).find(d => d.exercises.find(e => e.id === exerciseId));
   const ex = day.exercises.find(e => e.id === exerciseId);
@@ -473,7 +471,7 @@ async function renderHistory(exerciseId, dayId) {
                   </div>
                 `).join('')}
               </div>
-              <div class="he-volume">Vol: ${calcVolume(session.sets)} kg</div>
+              <div class="he-volume">Volumen: ${calcVolume(session.sets)} kg</div>
             </div>
           `).join('')}
         </div>
@@ -482,7 +480,7 @@ async function renderHistory(exerciseId, dayId) {
   `;
 }
 
-// ─── ACTIONS ──────────────────────────────────────────────────────────────────
+// ─── AKTIONEN ──────────────────────────────────────────────────────────────────────
 function updateSet(index, field, value) {
   if (!currentSetData[currentExercise]) return;
   currentSetData[currentExercise][index][field] = value;
@@ -514,14 +512,14 @@ function markSetDone(index) {
   }
 }
 
-function addSet(exerciseId, dayId) {
+Funktion addSet(exerciseId, dayId) {
   const sets = currentSetData[exerciseId];
   const last = sets[sets.length - 1];
   sets.push({ weight: last?.weight || '', reps: last?.reps || 10 });
   rerenderSets();
 }
 
-function removeSet(index) {
+Funktion removeSet(index) {
   const sets = currentSetData[currentExercise];
   if (sets.length <= 1) return;
   sets.splice(index, 1);
@@ -542,13 +540,13 @@ async function saveExercise(dayId, exerciseId) {
   const session = {
     id: `${dayId}_${exerciseId}_${today}`,
     dayId: parseInt(dayId),
-    exerciseId,
-    date: today,
-    sets: sets.map(s => ({ weight: parseFloat(s.weight) || 0, reps: s.reps }))
+    Übungs-ID,
+    Datum: heute
+    Sets: Sets.map(s => ({ Gewicht: parseFloat(s.Gewicht) || 0, Wiederholungen: s.Wiederholungen }))
   };
   await db.saveSession(session);
 
-  // Flash confirmation
+  // Blitzbestätigung
   const btn = document.querySelector('.save-btn');
   if (btn) {
     btn.textContent = 'Gespeichert!';
@@ -561,12 +559,12 @@ async function saveExercise(dayId, exerciseId) {
 }
 
 function setTimerDuration(secs) {
-  timerDuration = secs;
-  // Update buttons
+  TimerDauer = Sekunden;
+  // Aktualisierungsschaltflächen
   document.querySelectorAll('.tc-btn').forEach(b => {
     b.classList.toggle('active', parseInt(b.textContent) === secs);
   });
-  // Update timer trigger button if visible
+  // Timer-Auslöseknopf aktualisieren, falls sichtbar
   const trigBtn = document.querySelector('.timer-trigger-btn');
   if (trigBtn) trigBtn.textContent = `${secs}s Pause`;
 }
@@ -577,7 +575,7 @@ async function startTimer() {
   showTimerBar();
 }
 
-function showTimerBar() {
+function showTimeBar() {
   const bar = document.getElementById('timer-bar');
   if (bar) bar.classList.add('visible');
 }
@@ -620,7 +618,7 @@ function timerBarHTML() {
   `;
 }
 
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
+// ─── HILFSKRÄFTE ────────────────────────────────────────────────────────────────────────
 function getTopWeight(sets) {
   const weights = sets.map(s => parseFloat(s.weight)).filter(w => !isNaN(w));
   return weights.length ? Math.max(...weights) : null;
